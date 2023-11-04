@@ -4,6 +4,8 @@ import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import compression from 'compression';
 import cors from 'cors';
+import mongoose from 'mongoose';
+import router from './router'
 
 const app = express();
 
@@ -21,3 +23,14 @@ server.listen(8080,()=>{
     console.log('Server running on http://localhost:8080/');
     
 });
+
+const MONGO_URL =
+  "mongodb+srv://mohit:mohit@cluster0.mifbsic.mongodb.net/MohitDatabase";
+
+mongoose.Promise = Promise;
+mongoose.connect(MONGO_URL);
+mongoose.connection.on('error',(error:Error)=> console.log(error));
+console.log("db connected successfully");
+
+
+app.use('/',router());
